@@ -15,18 +15,19 @@ import subprocess
 from io import StringIO
 
 import errant
-import ua_gec
+import python.ua_gec
 from tqdm import tqdm
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--partition", choices=["test", "train", "all"], required=True)
-    parser.add_argument("--layer", type=ua_gec.AnnotationLayer, required=True)
+    parser.add_argument("--layer", type=python.ua_gec.AnnotationLayer, required=True)
     parser.add_argument("--output", required=True)
+    parser.add_argument('--path', required=False, default=None)
     args = parser.parse_args()
 
-    corpus = ua_gec.Corpus(args.partition, args.layer)
+    corpus = python.ua_gec.Corpus(args.partition, args.layer, data_dir=args.path)
     make_m2(corpus, args.output)
 
 

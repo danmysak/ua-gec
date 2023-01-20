@@ -18,17 +18,17 @@ from pathlib import Path
 
 import stanza
 import tqdm
-import ua_gec
+import python.ua_gec
 from pyxdameraulevenshtein import damerau_levenshtein_distance
 
 
 def main(data_dir="./data", annotation_layer="gec-only"):
-    annotation_layer = ua_gec.AnnotationLayer(annotation_layer)
+    annotation_layer = python.ua_gec.AnnotationLayer(annotation_layer)
     data_dir = Path(data_dir) / annotation_layer.value
     for partition in ("train", "test"):
         out_dir = data_dir / partition
         print(f"~~~ Preprocess {partition} partition to {out_dir}")
-        corpus = ua_gec.Corpus(partition, annotation_layer=annotation_layer)
+        corpus = python.ua_gec.Corpus(partition, annotation_layer=annotation_layer, data_dir=data_dir)
         do_partition(out_dir, corpus)
 
 
@@ -234,7 +234,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--path", default="./data")
     parser.add_argument("--annotation-layer",
-                        choices=[x.value for x in ua_gec.AnnotationLayer],
+                        choices=[x.value for x in python.ua_gec.AnnotationLayer],
                         required=True)
     args = parser.parse_args()
     main(args.path, args.annotation_layer)

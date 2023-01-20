@@ -3,7 +3,7 @@ import collections
 import enum
 import pathlib
 
-from ua_gec.annotated_text import AnnotatedText
+from .annotated_text import AnnotatedText
 
 
 Metadata = collections.namedtuple(
@@ -89,14 +89,18 @@ class Corpus:
         1493024
     """
 
-    def __init__(self, partition="train", annotation_layer=AnnotationLayer.GecAndFluency):
+    def __init__(self, partition="train", annotation_layer=AnnotationLayer.GecAndFluency, data_dir=None):
         if partition not in ("train", "test", "all"):
             raise ValueError("`partition` must be 'train', 'test' or 'all'")
         self.partition = partition
         self.annotation_layer = AnnotationLayer(annotation_layer)
 
-        root_dir = pathlib.Path(__file__).parent
-        self._data_dir = root_dir / "data" / self.annotation_layer.value
+        if data_dir is None:
+            root_dir = pathlib.Path(__file__).parent
+            data_dir = root_dir / "data"
+        else:
+            data_dir = pathlib.Path(data_dir)
+        self._data_dir = data_dir / self.annotation_layer.value
         self._metadata = None
         self._docs = None  # lazy loaded list of document
 

@@ -97,8 +97,8 @@ class CorpusStatistics:
 
 
 def main(args):
-    from ua_gec import Corpus
-    corpus = Corpus(args.partition, args.layer)
+    from . import Corpus
+    corpus = Corpus(args.partition, args.layer, data_dir=args.path)
     stats = CorpusStatistics(corpus)
     stats.pretty_print()
 
@@ -107,5 +107,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("partition", choices=["all", "train", "test"])
     parser.add_argument("layer", choices=["gec-fluency", "gec-only"])
+    parser.add_argument('--path', nargs='?', default=None)
     args = parser.parse_args()
     main(args)

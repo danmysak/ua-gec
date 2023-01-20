@@ -3,8 +3,9 @@
 """
 
 from collections import defaultdict
-from ua_gec import Corpus, AnnotationLayer
+from python.ua_gec import Corpus, AnnotationLayer
 
+DATA_DIR = './data'
 
 
 def check_files_without_annotations(corpus):
@@ -57,8 +58,8 @@ def check_double_annotated(corpus):
 def check_gec_only_and_gec_fluency_source_match():
     """Check that GEC-only and GEC-Fluency has the same number of source sentences. """
 
-    corpus_gec = Corpus("all", annotation_layer=AnnotationLayer.GecOnly)
-    corpus_fluency = Corpus("all", annotation_layer=AnnotationLayer.GecAndFluency)
+    corpus_gec = Corpus("all", annotation_layer=AnnotationLayer.GecOnly, data_dir=DATA_DIR)
+    corpus_fluency = Corpus("all", annotation_layer=AnnotationLayer.GecAndFluency, data_dir=DATA_DIR)
 
     broken = []
     for doc1, doc2 in zip(corpus_fluency, corpus_gec):
@@ -74,7 +75,7 @@ def check_number_of_source_and_target_sentences():
     """Check that the number of source and target sentences match. """
 
     for layer in (AnnotationLayer.GecOnly, AnnotationLayer.GecAndFluency):
-        corpus = Corpus("all", annotation_layer=layer)
+        corpus = Corpus("all", annotation_layer=layer, data_dir=DATA_DIR)
         broken = []
         for doc in corpus:
             msg = f"{doc.doc_id}.annotator_id={doc.meta.annotator_id} ({layer})"
@@ -89,7 +90,7 @@ def check_number_of_source_and_target_sentences():
 
 
 def main():
-    corpus = Corpus("all")
+    corpus = Corpus("all", data_dir=DATA_DIR)
 
     check_files_without_annotations(corpus)
     check_files_with_missing_detailed_annotations(corpus)
