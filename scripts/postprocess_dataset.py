@@ -24,9 +24,8 @@ from pyxdameraulevenshtein import damerau_levenshtein_distance
 
 def main(data_dir="./data", annotation_layer="gec-only"):
     annotation_layer = python.ua_gec.AnnotationLayer(annotation_layer)
-    data_dir = Path(data_dir) / annotation_layer.value
     for partition in ("train", "test"):
-        out_dir = data_dir / partition
+        out_dir = Path(data_dir) / annotation_layer.value / partition
         print(f"~~~ Preprocess {partition} partition to {out_dir}")
         corpus = python.ua_gec.Corpus(partition, annotation_layer=annotation_layer, data_dir=data_dir)
         do_partition(out_dir, corpus)
