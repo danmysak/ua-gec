@@ -24,7 +24,7 @@ def main():
     parser.add_argument("--partition", choices=["test", "train", "all"], required=True)
     parser.add_argument("--layer", type=python.ua_gec.AnnotationLayer, required=True)
     parser.add_argument("--output", required=True)
-    parser.add_argument('--path', required=False, default=None)
+    parser.add_argument('--path', required=True)
     args = parser.parse_args()
 
     corpus = python.ua_gec.Corpus(args.partition, args.layer, data_dir=args.path)
