@@ -6,6 +6,7 @@ postprocess:
 	rm -rf data/gec-*/test/target*
 	rm -rf data/gec-*/train/source*
 	rm -rf data/gec-*/train/target*
+	export PYTHONPATH=$PYTHONPATH:./
 	./scripts/postprocess_dataset.py --annotation-layer gec-fluency --path ./data
 	./scripts/postprocess_dataset.py --annotation-layer gec-only --path ./data
 	bash -c './scripts/normalize_trailing_newslines.py data/gec-{only,fluency}/{test,train}/*/*{.txt,.ann}'
